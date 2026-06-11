@@ -388,6 +388,171 @@ function renderContactPageContent(site, contact) {
         `.trim();
 }
 
+function renderHomePageContent(site, projects, posts, profile, contact) {
+  const home = site.home || {};
+  const sections = home.sections || {};
+  const heroCopy = home.hero || {};
+  const profilePreview = home.profilePreview || {};
+  const projectsSection = sections.projects || {};
+  const profileSection = sections.profile || {};
+  const notesSection = sections.notes || {};
+  const contactSection = sections.contact || {};
+  const featuredProjects = projects.filter(project => project.featured !== false).slice(0, 5);
+  const notePreviews = posts.slice(0, 3);
+  const kickerItems = Array.isArray(heroCopy.kicker) && heroCopy.kicker.length > 0
+    ? heroCopy.kicker
+    : (profile.hero?.kicker || []);
+  const readoutItems = Array.isArray(heroCopy.readout) && heroCopy.readout.length > 0
+    ? heroCopy.readout
+    : (profile.hero?.readout || []);
+
+  return `
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <div class="hero-kicker" id="hero-kicker">
+            ${kickerItems.map(item => `<span>${escapeHtml(item)}</span>`).join("")}
+          </div>
+          <h1 class="hero-title" id="hero-title">
+            <span id="hero-name">${escapeHtml(heroCopy.name || profile.hero?.name || site.ownerName || site.siteName || "KyleKK")}</span>
+            <span class="highlight" id="hero-highlight">${escapeHtml(heroCopy.highlight || profile.hero?.highlight || "Game Dev Lab")}</span>
+          </h1>
+          <div class="hero-text" id="hero-text">${escapeHtml(heroCopy.description || profile.hero?.description || "")}</div>
+          <div class="actions">
+            <a class="button primary" href="projects.html" id="hero-primary-link">${escapeHtml(heroCopy.primaryLabel || "查看项目")}</a>
+            <a class="button secondary" href="profile.html" id="hero-secondary-link">${escapeHtml(heroCopy.secondaryLabel || "查看经历与技能")}</a>
+          </div>
+          <div class="hero-readout" aria-label="核心方向" id="hero-readout">
+            ${readoutItems.map(item => `
+              <div class="readout-item">
+                <strong>${escapeHtml(item.label)}</strong>
+                <span>${escapeHtml(item.value)}</span>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+
+        <div class="terminal-window profile-panel" aria-label="个人概览">
+          <div class="window-header">
+            <span class="window-dot red"></span>
+            <span class="window-dot yellow"></span>
+            <span class="window-dot green"></span>
+            <span class="window-title" id="home-panel-window-title">${escapeHtml(home.panelWindowTitle || "status.log")}</span>
+          </div>
+          <div class="window-body profile-body">
+            <div class="avatar">K</div>
+            <h2 id="profile-panel-role">${escapeHtml(profilePreview.panelTitle || profile.panelTitle || "Gameplay Developer Intern")}</h2>
+            <div id="profile-panel-summary">${escapeHtml(profilePreview.summary || profile.summary || "")}</div>
+            <div class="status-list" id="profile-panel-status">
+              ${profile.status.map(item => `
+                <div class="status-row">
+                  <strong>${escapeHtml(item.label)}</strong>
+                  <span>${escapeHtml(item.value)}</span>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module reveal" id="projects">
+        <div class="module-head">
+          <div>
+            <span class="module-kicker" id="home-projects-kicker">${escapeHtml(projectsSection.kicker || "Projects")}</span>
+            <h2 class="module-title" id="home-projects-title">${escapeHtml(projectsSection.title || "精选项目")}</h2>
+          </div>
+          <a class="detail-link" href="projects.html" id="home-projects-detail">${escapeHtml(projectsSection.detailLabel || "查看全部项目")}</a>
+        </div>
+        <p class="module-copy" id="home-projects-lead">${escapeHtml(projectsSection.lead || "首页保留少量项目入口，完整项目封面、简介和游玩入口会集中在项目页维护。")}</p>
+        <div class="project-highlight-list" id="project-highlight-list" aria-label="精选项目列表">
+          ${featuredProjects.map((project, index) => `
+            <article class="project-tile ${index === 0 ? "featured" : ""}" id="home-project-${escapeHtml(project.slug)}">
+              ${renderProjectCover(project)}
+              <div class="project-info">
+                <h3>${escapeHtml(project.title)}</h3>
+                <p>${escapeHtml(project.summary)}</p>
+                <div class="project-cta-row">
+                  ${renderProjectAction(project, "project-cta")}
+                </div>
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+
+      <section class="module reveal" id="profile">
+        <div class="module-head">
+          <div>
+            <span class="module-kicker" id="home-profile-kicker">${escapeHtml(profileSection.kicker || "Profile")}</span>
+            <h2 class="module-title" id="home-profile-title">${escapeHtml(profileSection.title || "经历与技能")}</h2>
+          </div>
+          <a class="detail-link" href="profile.html" id="home-profile-detail">${escapeHtml(profileSection.detailLabel || "打开经历页")}</a>
+        </div>
+        <div class="profile-grid">
+          <div class="timeline" aria-label="经历时间线" id="profile-timeline">
+            ${profile.timeline.map(item => `
+              <article class="timeline-item">
+                <time>${escapeHtml(item.time)}</time>
+                <div>
+                  <h3>${escapeHtml(item.title)}</h3>
+                  <p>${escapeHtml(item.description)}</p>
+                </div>
+              </article>
+            `).join("")}
+          </div>
+
+          <div class="skill-board" aria-label="技能矩阵" id="profile-skill-board">
+            ${profile.skills.map(group => `
+              <div class="skill-group">
+                <span class="skill-group-label">${escapeHtml(group.label)}</span>
+                <div class="skills">
+                  ${renderTagList(group.items, "skill-tag")}
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      </section>
+
+      <section class="module reveal" id="notes">
+        <div class="module-head">
+          <div>
+            <span class="module-kicker" id="home-notes-kicker">${escapeHtml(notesSection.kicker || "Notes")}</span>
+            <h2 class="module-title" id="home-notes-title">${escapeHtml(notesSection.title || "技术博客")}</h2>
+          </div>
+          <a class="detail-link" href="blog.html" id="home-notes-detail">${escapeHtml(notesSection.detailLabel || "查看全部博客")}</a>
+        </div>
+        <div class="notes-grid" id="note-preview-list" aria-label="博客预览列表">
+          ${notePreviews.map(post => `
+            <a class="note-card" href="${getPostPageHref(post)}">
+              <small>${escapeHtml(post.date)}</small>
+              <h3>${escapeHtml(post.title)}</h3>
+              <p>${escapeHtml(post.summary)}</p>
+              <div class="note-tags">
+                ${renderTagList(post.tags, "mini-tag")}
+              </div>
+            </a>
+          `).join("")}
+        </div>
+      </section>
+
+      <section class="module reveal" id="contact">
+        <div class="module-head">
+          <div>
+            <span class="module-kicker" id="home-contact-kicker">${escapeHtml(contactSection.kicker || "Contact")}</span>
+            <h2 class="module-title" id="home-contact-title">${escapeHtml(contactSection.title || "联系我")}</h2>
+          </div>
+          <a class="detail-link" href="contact.html" id="home-contact-detail">${escapeHtml(contactSection.detailLabel || "打开联系页")}</a>
+        </div>
+        <div class="contact-layout">
+          <div class="contact-copy" id="contact-copy">${escapeHtml(contact.summary || "")}</div>
+          <div class="contact-actions" id="contact-actions">
+            ${renderContactCards(contact.cards)}
+          </div>
+        </div>
+      </section>
+    `.trim();
+}
+
 function getPostPageHref(post, basePath = "") {
   return `${basePath}posts/${sanitizeSlug(post.slug)}.html`;
 }
@@ -655,6 +820,17 @@ function buildStaticPageSnapshots(projects, posts) {
   const site = readJson(SITE_PATH);
   const profile = readJson(PROFILE_PATH);
   const contact = readJson(CONTACT_PATH);
+
+  writeStaticPage("index.html", [
+    {
+      marker: "home-main",
+      content: renderHomePageContent(site, projects, posts, profile, contact)
+    },
+    {
+      marker: "home-snapshot",
+      content: serializeSnapshot({ site, projects, posts, profile, contact })
+    }
+  ]);
 
   writeStaticPage("projects.html", [
     {

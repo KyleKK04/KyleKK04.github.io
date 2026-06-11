@@ -2,6 +2,7 @@ document.querySelector("#current-year").textContent = new Date().getFullYear();
 
 const projectHighlightList = document.querySelector("#project-highlight-list");
 const notePreviewList = document.querySelector("#note-preview-list");
+const pageSnapshot = SiteContent.readEmbeddedJson("home-page-snapshot");
 
 function renderHomeChrome(site) {
   const home = site.home || {};
@@ -143,6 +144,11 @@ function renderContactSection(contact) {
 }
 
 async function initHome() {
+  if (pageSnapshot?.site && pageSnapshot?.profile && pageSnapshot?.contact) {
+    renderHomeChrome(pageSnapshot.site);
+    return;
+  }
+
   try {
     const [site, projectResponse, postResponse, profile, contact] = await Promise.all([
       SiteContent.fetchJson("content/site.json"),
