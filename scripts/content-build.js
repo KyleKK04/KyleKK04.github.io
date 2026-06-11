@@ -76,6 +76,7 @@ function buildPosts() {
       date: data.date,
       summary: data.summary,
       tags: data.tags || [],
+      body: normalizeMarkdownBody(body),
       file: publicFile
     };
   });
