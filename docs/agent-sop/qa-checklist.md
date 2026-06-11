@@ -67,6 +67,7 @@ Preview relevant pages:
 http://localhost:4173/
 http://localhost:4173/projects.html
 http://localhost:4173/blog.html
+http://localhost:4173/posts/<slug>.html
 http://localhost:4173/blog.html?post=<slug>
 http://localhost:4173/profile.html
 http://localhost:4173/contact.html

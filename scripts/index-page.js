@@ -62,7 +62,7 @@ function renderProjectHighlights(projects) {
 
 function renderNotePreviews(posts) {
   notePreviewList.innerHTML = posts.slice(0, 3).map(post => `
-    <a class="note-card" href="blog.html?post=${encodeURIComponent(post.slug)}">
+    <a class="note-card" href="posts/${encodeURIComponent(post.slug)}.html">
       <small>${SiteContent.escapeHtml(post.date)}</small>
       <h3>${SiteContent.escapeHtml(post.title)}</h3>
       <p>${SiteContent.escapeHtml(post.summary)}</p>

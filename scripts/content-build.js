@@ -50,6 +50,15 @@ function sanitizeUrl(value, fallback = "#") {
   return fallback;
 }
 
+function sanitizeSlug(value, fallback = "post") {
+  const safeValue = String(value ?? "").trim();
+  if (/^[A-Za-z0-9_-]+$/.test(safeValue)) {
+    return safeValue;
+  }
+
+  return fallback;
+}
+
 function renderProjectCover(project, options = {}) {
   const filename = escapeHtml(options.filename || `${project.slug}.log`);
   const coverLabel = escapeHtml(project.coverLabel || "00");
@@ -93,6 +102,153 @@ function renderTagList(items, className) {
   return (items || [])
     .map(item => `<span class="${className}">${escapeHtml(item)}</span>`)
     .join("");
+}
+
+function renderInlineMarkdown(value) {
+  let html = escapeHtml(String(value ?? ""));
+
+  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt, href) => {
+    const safeHref = sanitizeUrl(href, "#");
+    const altText = alt || "";
+    return `<img src="${safeHref}" alt="${escapeHtml(altText)}" loading="lazy">`;
+  });
+
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_match, label, href) => {
+    const safeHref = sanitizeUrl(href, "#");
+    const isExternal = safeHref.startsWith("http://") || safeHref.startsWith("https://");
+    const rel = isExternal ? ' target="_blank" rel="noreferrer"' : "";
+    return `<a href="${safeHref}"${rel}>${escapeHtml(label)}</a>`;
+  });
+
+  html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+  html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+
+  return html;
+}
+
+function closeList(state, html) {
+  while (state.listStack.length > 0) {
+    const type = state.listStack.pop();
+    html.push(`</${type}>`);
+  }
+}
+
+function openList(state, html, type) {
+  if (state.listStack.length === 0 || state.listStack[state.listStack.length - 1] !== type) {
+    html.push(`<${type}>`);
+    state.listStack.push(type);
+  }
+}
+
+function dedentListStack(state, html, indent) {
+  while (state.listStack.length > indent) {
+    const type = state.listStack.pop();
+    html.push(`</${type}>`);
+  }
+}
+
+function isBlank(line) {
+  return !line || !line.trim();
+}
+
+function lineIndent(line) {
+  const match = line.match(/^(\s*)/);
+  return match ? match[1].length : 0;
+}
+
+function stripFrontmatter(markdown) {
+  return String(markdown ?? "").replace(/^---[\s\S]*?---\s*/, "");
+}
+
+function stripTitleHeading(content, currentTitle) {
+  if (!currentTitle) return content;
+  const escapedTitle = currentTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return content.replace(new RegExp(`^#\\s+${escapedTitle}\\s*\\n+`), "");
+}
+
+function renderMarkdownToHtml(markdown, currentTitle = "") {
+  let content = stripFrontmatter(markdown);
+  content = stripTitleHeading(content, currentTitle);
+
+  const lines = content.split(/\r?\n/);
+  const html = [];
+  const state = { listStack: [], inCode: false, codeLines: [], codeLang: "" };
+  const LIST_INDENT = 2;
+
+  for (const line of lines) {
+    const codeFence = line.trim().match(/^```(\w*)\s*$/);
+    if (codeFence) {
+      if (state.inCode) {
+        const langAttr = state.codeLang ? ` class="language-${state.codeLang}"` : "";
+        html.push(`<pre><code${langAttr}>${escapeHtml(state.codeLines.join("\n"))}</code></pre>`);
+        state.codeLines = [];
+        state.inCode = false;
+        state.codeLang = "";
+      } else {
+        closeList(state, html);
+        state.inCode = true;
+        state.codeLang = codeFence[1] || "";
+      }
+      continue;
+    }
+
+    if (state.inCode) {
+      state.codeLines.push(line);
+      continue;
+    }
+
+    if (isBlank(line)) {
+      closeList(state, html);
+      continue;
+    }
+
+    if (line.trim() === "---" || line.trim() === "***" || line.trim() === "___") {
+      closeList(state, html);
+      html.push("<hr>");
+      continue;
+    }
+
+    const heading = line.match(/^(#{1,3})\s+(.+)$/);
+    if (heading) {
+      closeList(state, html);
+      const level = heading[1].length;
+      html.push(`<h${level}>${renderInlineMarkdown(heading[2])}</h${level}>`);
+      continue;
+    }
+
+    const quote = line.match(/^>\s+(.+)$/);
+    if (quote) {
+      closeList(state, html);
+      html.push(`<blockquote>${renderInlineMarkdown(quote[1])}</blockquote>`);
+      continue;
+    }
+
+    const indent = lineIndent(line);
+    const trimmed = line.trim();
+    const listLevel = Math.floor(indent / LIST_INDENT);
+
+    const unordered = trimmed.match(/^[-*]\s+(.+)$/);
+    if (unordered) {
+      dedentListStack(state, html, listLevel);
+      openList(state, html, "ul");
+      html.push(`<li>${renderInlineMarkdown(unordered[1])}</li>`);
+      continue;
+    }
+
+    const ordered = trimmed.match(/^\d+\.\s+(.+)$/);
+    if (ordered) {
+      dedentListStack(state, html, listLevel);
+      openList(state, html, "ol");
+      html.push(`<li>${renderInlineMarkdown(ordered[1])}</li>`);
+      continue;
+    }
+
+    closeList(state, html);
+    html.push(`<p>${renderInlineMarkdown(line)}</p>`);
+  }
+
+  closeList(state, html);
+  return html.join("\n");
 }
 
 function renderContactCards(cards) {
@@ -232,7 +388,270 @@ function renderContactPageContent(site, contact) {
         `.trim();
 }
 
-function buildStaticPageSnapshots(projects) {
+function getPostPageHref(post, basePath = "") {
+  return `${basePath}posts/${sanitizeSlug(post.slug)}.html`;
+}
+
+function renderBlogListContent(site, posts) {
+  const blogPage = site.blogPage || {};
+
+  return `
+          <div class="article-meta" id="article-meta" style="display:none"></div>
+          <h1 class="article-title" id="article-title">${escapeHtml(blogPage.listTitle || "技术博客")}</h1>
+          <p class="article-summary" id="article-summary">${renderInlineMarkdown(blogPage.listSummary || "技术复盘、项目笔记和学习记录。").replace(/\n/g, "")}</p>
+          <div class="post-tags" id="article-tags"></div>
+          <div class="reader-content" id="reader-content">
+            <div class="post-list">${posts.map(post => `
+                <a class="post-option" href="${getPostPageHref(post)}">
+                  <small>${escapeHtml(post.date)}</small>
+                  <h3>${escapeHtml(post.title)}</h3>
+                  <p>${renderInlineMarkdown(post.summary || "")}</p>
+                  <div class="post-tags">
+                    ${renderTagList(post.tags, "mini-tag")}
+                  </div>
+                </a>`).join("")}
+            </div>
+          </div>
+        `.trim();
+}
+
+function renderBlogPostPage(site, post) {
+  const ownerName = escapeHtml(site.ownerName || "KyleKK");
+  const siteName = escapeHtml(site.siteName || "KyleKK");
+  const navigation = site.navigation || {};
+  const safeSlug = sanitizeSlug(post.slug);
+  const title = escapeHtml(post.title);
+  const summaryHtml = renderInlineMarkdown(post.summary || "");
+  const bodyHtml = renderMarkdownToHtml(post.body || "", post.title);
+  const backgroundImage = sanitizeUrl(site.backgroundImage, "/res/background.jpg");
+  const backgroundFit = site.backgroundFit === "cover" ? "cover" : "contain";
+  const allowedPositions = new Set(["center", "top", "bottom", "left", "right"]);
+  const backgroundPosition = allowedPositions.has(site.backgroundPosition) ? site.backgroundPosition : "center";
+
+  return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="${escapeHtml(post.summary || "")}">
+  <title>${title} | ${ownerName}</title>
+  <meta property="og:title" content="${title} | ${ownerName}">
+  <meta property="og:description" content="${escapeHtml(post.summary || "")}">
+  <meta property="og:url" content="https://kylekk.com/posts/${safeSlug}.html">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="../styles/main.css?v=20260611-blog-readability-3">
+  <style>
+    :root {
+      --bg-image: url("${backgroundImage}");
+      --bg-image-fit: ${backgroundFit};
+      --bg-image-position: ${backgroundPosition};
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 15% 10%, rgba(83, 216, 140, 0.04), transparent 30rem),
+        radial-gradient(circle at 80% 20%, rgba(111, 183, 214, 0.025), transparent 25rem),
+        var(--bg);
+      line-height: 1.75;
+    }
+
+    .page {
+      width: min(1080px, calc(100% - 40px));
+    }
+
+    .article-window {
+      margin: 0 0 54px;
+    }
+
+    .article-window .window-body {
+      padding: 38px 40px 42px;
+    }
+
+    .article-meta {
+      margin-bottom: 14px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .article-title {
+      max-width: 920px;
+      margin-bottom: 16px;
+      font-size: 38px;
+      line-height: 1.14;
+      letter-spacing: -0.01em;
+      overflow-wrap: anywhere;
+      font-weight: 700;
+    }
+
+    .article-summary {
+      max-width: 52em;
+      margin-bottom: 24px;
+      color: #d9e1de;
+      font-size: 15px;
+      line-height: 1.9;
+      font-weight: 500;
+    }
+
+    .article-summary strong {
+      color: #f4f7f6;
+    }
+
+    .reader-content .katex {
+      color: #dfe7e3;
+    }
+
+    .reader-content .katex-display {
+      margin: 1.2rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 0.15rem;
+    }
+
+    .article-window .mini-tag {
+      color: #b8ffd5;
+      background: rgba(83, 216, 140, 0.24);
+      border-color: rgba(83, 216, 140, 0.48);
+      box-shadow: inset 0 0 0 1px rgba(83, 216, 140, 0.08);
+    }
+
+    .reader-content {
+      max-width: 52em;
+      color: #e0e7e3;
+      font-size: 14px;
+      line-height: 1.95;
+    }
+
+    .reader-content p,
+    .reader-content ul,
+    .reader-content ol,
+    .reader-content li {
+      color: #dce5e1;
+    }
+
+    .reader-content p {
+      margin: 15px 0;
+    }
+
+    .reader-content ul,
+    .reader-content ol {
+      margin: 15px 0 15px 26px;
+    }
+
+    .reader-content li {
+      margin: 6px 0;
+      padding-left: 2px;
+    }
+
+    .reader-content strong {
+      color: #f5f7f6;
+      font-weight: 700;
+    }
+
+    .reader-content h1,
+    .reader-content h2,
+    .reader-content h3 {
+      max-width: 28em;
+      margin-top: 34px;
+      color: #f3f6f4;
+    }
+
+    .reader-content blockquote {
+      color: #dce5e1;
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid rgba(83, 216, 140, 0.82);
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .reader-content code {
+      padding: 0.12em 0.32em;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #eef6f1;
+    }
+
+    .reader-content pre {
+      margin: 18px 0;
+      padding: 16px 18px;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    .reader-content pre code {
+      padding: 0;
+      background: transparent;
+    }
+
+    .post-link {
+      color: var(--primary);
+    }
+
+    @media (max-width: 640px) {
+      .article-window .window-body {
+        padding: 22px;
+      }
+
+      .article-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav">
+      <a class="logo" href="../index.html">${siteName}</a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="../projects.html">${escapeHtml(navigation.projects || "Projects")}</a>
+        <a href="../profile.html">${escapeHtml(navigation.profile || "Profile")}</a>
+        <a class="active" href="../blog.html">${escapeHtml(navigation.notes || "Notes")}</a>
+        <a href="../contact.html">${escapeHtml(navigation.contact || "Contact")}</a>
+      </nav>
+    </header>
+
+    <main>
+      <article class="terminal-window article-window">
+        <div class="window-header">
+          <span class="window-dot red"></span>
+          <span class="window-dot yellow"></span>
+          <span class="window-dot green"></span>
+          <span class="window-title">${escapeHtml(safeSlug)}.md</span>
+        </div>
+        <div class="window-body">
+          <div class="article-meta">${escapeHtml(post.date)}</div>
+          <h1 class="article-title">${title}</h1>
+          <p class="article-summary" id="article-summary">${summaryHtml}</p>
+          <div class="post-tags">
+            ${renderTagList(post.tags, "mini-tag")}
+          </div>
+          <div class="reader-content" id="reader-content">
+            ${bodyHtml}
+          </div>
+          <p style="margin-top:28px"><a class="post-link" href="../blog.html">返回博客列表</a></p>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      <p>&copy; <span id="current-year">${new Date().getFullYear()}</span> ${ownerName}</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script src="../scripts/post-page.js"></script>
+</body>
+</html>
+`;
+}
+
+function buildStaticPageSnapshots(projects, posts) {
   const site = readJson(SITE_PATH);
   const profile = readJson(PROFILE_PATH);
   const contact = readJson(CONTACT_PATH);
@@ -267,6 +686,17 @@ function buildStaticPageSnapshots(projects) {
     {
       marker: "contact-snapshot",
       content: serializeSnapshot({ site, contact })
+    }
+  ]);
+
+  writeStaticPage("blog.html", [
+    {
+      marker: "blog-content",
+      content: renderBlogListContent(site, posts)
+    },
+    {
+      marker: "blog-snapshot",
+      content: serializeSnapshot({ site, posts })
     }
   ]);
 }
@@ -313,6 +743,14 @@ function buildPosts() {
       return rightDate.localeCompare(leftDate) || left.data.slug.localeCompare(right.data.slug);
     });
 
+  if (fs.existsSync(PUBLIC_POSTS_DIR)) {
+    fs.readdirSync(PUBLIC_POSTS_DIR)
+      .filter(fileName => fileName.endsWith(".html"))
+      .forEach(fileName => {
+        fs.unlinkSync(path.join(PUBLIC_POSTS_DIR, fileName));
+      });
+  }
+
   const posts = entries.map(entry => {
     const { data, body } = entry;
     const slug = data.slug;
@@ -340,6 +778,14 @@ function buildPosts() {
     };
   });
 
+  const site = readJson(SITE_PATH);
+  posts.forEach(post => {
+    writeFile(
+      path.join(PUBLIC_POSTS_DIR, `${sanitizeSlug(post.slug)}.html`),
+      renderBlogPostPage(site, post)
+    );
+  });
+
   writeJson(path.join(PUBLIC_POSTS_DIR, "index.json"), posts);
   return posts;
 }
@@ -347,7 +793,7 @@ function buildPosts() {
 function main() {
   const projects = buildProjects();
   const posts = buildPosts();
-  buildStaticPageSnapshots(projects);
+  buildStaticPageSnapshots(projects, posts);
 
   console.log(`Built ${projects.length} projects and ${posts.length} posts.`);
 }

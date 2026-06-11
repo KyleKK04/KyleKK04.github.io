@@ -35,8 +35,8 @@ For ordinary blog publishing, edit `content/posts/<slug>.md` and regenerate outp
 3. Create or update `content/posts/<slug>.md`.
 4. Put metadata in frontmatter and body in markdown.
 5. Run `npm run content:sync`.
-6. Confirm generated `posts/index.json` and `posts/<slug>.md` were updated.
-7. Check `blog.html?post=<slug>`.
+6. Confirm generated `posts/index.json`, `posts/<slug>.md`, and `posts/<slug>.html` were updated.
+7. Check `posts/<slug>.html`, and confirm the legacy `blog.html?post=<slug>` link redirects there.
 
 ## Content Markdown Template
 
@@ -96,6 +96,7 @@ Preview:
 
 ```text
 http://localhost:4173/blog.html
+http://localhost:4173/posts/<slug>.html
 http://localhost:4173/blog.html?post=<slug>
 ```
 

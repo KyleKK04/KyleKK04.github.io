@@ -3,16 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="朱绪达 KyleKK 的技术博客列表与文章阅读。">
-  <title>技术博客 | 朱绪达 KyleKK</title>
-  <meta property="og:title" content="技术博客 | 朱绪达 KyleKK">
-  <meta property="og:description" content="朱绪达 KyleKK 的技术博客，记录游戏研发、Unity、玩法系统和工程实践的复盘与笔记。">
+  <meta name="description" content="KyleKK 的技术博客列表与文章阅读。">
+  <title>技术博客 | KyleKK</title>
+  <meta property="og:title" content="技术博客 | KyleKK">
+  <meta property="og:description" content="KyleKK 的技术博客，记录游戏研发、Unity、玩法系统和工程实践的复盘与笔记。">
   <meta property="og:url" content="https://kylekk.com/blog.html">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   <link rel="stylesheet" href="styles/main.css?v=20260611-blog-readability-3">
+  <script>
+    (() => {
+      const slug = new URLSearchParams(window.location.search).get("post");
+      if (slug && /^[A-Za-z0-9_-]+$/.test(slug)) {
+        window.location.replace(`posts/${encodeURIComponent(slug)}.html`);
+      }
+    })();
+  </script>
   <style>
     body {
       background:
@@ -216,159 +224,71 @@
           <span class="window-title" id="window-title">posts.md</span>
         </div>
         <div class="window-body">
-          <div class="article-meta" id="article-meta" style="display:none"></div>
+          <!-- STATIC:blog-content:start -->
+<div class="article-meta" id="article-meta" style="display:none"></div>
           <h1 class="article-title" id="article-title">技术博客</h1>
           <p class="article-summary" id="article-summary">技术复盘、项目笔记和学习记录。</p>
           <div class="post-tags" id="article-tags"></div>
-          <div class="reader-content" id="reader-content"></div>
+          <div class="reader-content" id="reader-content">
+            <div class="post-list">
+                <a class="post-option" href="posts/dp-1.html">
+                  <small>2026-06-11</small>
+                  <h3>动态规划的本质</h3>
+                  <p>动态规划（Dynamic Programming，简称 <strong>DP</strong>）听起来名字很高级，但它的核心思想其实非常朴实：<strong>不要重复计算已经算过的问题。</strong></p>
+                  <div class="post-tags">
+                    <span class="mini-tag">动态规划</span>
+                  </div>
+                </a>
+            </div>
+          </div>
+<!-- STATIC:blog-content:end -->
         </div>
       </article>
     </main>
 
     <footer>
-      <p>&copy; <span id="current-year"></span> 朱绪达 KyleKK</p>
+      <p>&copy; <span id="current-year"></span> <span data-owner-name>KyleKK</span></p>
     </footer>
   </div>
 
+  <script id="blog-page-snapshot" type="application/json"><!-- STATIC:blog-snapshot:start -->
+{"site":{"backgroundFit":"contain","projectsPage":{"ogTitle":"项目列表 | KyleKK","loadErrorSummary":"请检查 projects/index.json。","ogDescription":"KyleKK 的游戏项目展示，涵盖 Unity 玩法开发、系统设计和快速原型。","windowTitle":"projects.log","kicker":"Projects","headline":"项目列表","loadErrorTitle":"项目暂时无法加载","metaDescription":"KyleKK 的游戏项目预览列表。","title":"项目列表 | KyleKK","lead":" ","loadErrorLead":"项目文案暂时无法加载。"},"backgroundImage":"/res/background.jpg","contactPage":{"windowTitle":"contact.log","kicker":"Contact","loadErrorMessage":"Contact 内容暂时无法加载。"},"blogPage":{"ogTitle":"技术博客 | KyleKK","ogDescription":"KyleKK 的技术博客，记录游戏研发、Unity、玩法系统和工程实践的复盘与笔记。","loadErrorMessage":"请确认本地预览是通过 HTTP 服务打开，并检查 posts/index.json 与 Markdown 文件路径。","loadErrorMeta":"Error","windowTitle":"posts.md","listSummary":"技术复盘、项目笔记和学习记录。","notFoundTitle":"没有找到这篇文章","notFoundMeta":"Not Found","loadErrorTitle":"文章暂时无法加载","notFoundSummary":"可以返回博客列表重新选择一篇文章。","metaDescription":"KyleKK 的技术博客列表与文章阅读。","title":"技术博客 | KyleKK","listTitle":"技术博客","notFoundBackLabel":"返回博客列表"},"siteName":"KyleKK","navigation":{"projects":"Projects","profile":"Profile","notes":"Notes","contact":"Contact"},"backgroundPosition":"center","profilePage":{"windowTitle":"profile.log","kicker":"Profile","loadErrorMessage":"Profile 内容暂时无法加载。"},"ownerName":"KyleKK","home":{"metaDescription":"KyleKK 的个人网站，记录游戏研发、Unity 项目、技术博客和学习复盘。","title":"KyleKK | Gameplay Developer","ogTitle":"KyleKK | Gameplay Developer","ogDescription":"四川大学软件工程本科在读，快手游戏研发部实习中。专注 Unity 玩法开发、系统设计与游戏原型。","panelWindowTitle":"status.log","hero":{"kicker":["Gameplay Developer","Unity","Prototype"],"name":"KyleKK","highlight":"Game Dev Lab","description":"软件工程本科在读，目前在快手游戏研发部实习。关注 Unity 玩法开发、系统设计、工具链和快速原型，把想法推进到可玩、可迭代、可复盘的版本。","readout":[{"label":"Unity","value":"Gameplay / Tools"},{"label":"C#","value":"Systems / UI"},{"label":"Jam","value":"Rapid Prototype"}],"primaryLabel":"查看项目","secondaryLabel":"查看经历与技能"},"profilePreview":{"panelTitle":"Gameplay Developer Intern","summary":"偏玩法、系统和工具链方向，正在把校园项目、Game Jam 经验和实习实践持续整理成可复用的方法。"},"sections":{"projects":{"kicker":"Projects","title":"精选项目","detailLabel":"查看全部项目","lead":"首页保留少量项目入口，完整项目封面、简介和游玩入口会集中在项目页维护。"},"profile":{"kicker":"Profile","title":"经历与技能","detailLabel":"打开经历页"},"notes":{"kicker":"Notes","title":"技术博客","detailLabel":"查看全部博客"},"contact":{"kicker":"Contact","title":"联系我","detailLabel":"打开联系页"}}}},"posts":[{"sourceFile":"content/posts/imported-post-1781172281444.md","slug":"dp-1","title":"动态规划的本质","date":"2026-06-11","summary":"动态规划（Dynamic Programming，简称 **DP**）听起来名字很高级，但它的核心思想其实非常朴实：**不要重复计算已经算过的问题。**","tags":["动态规划"],"body":"动态规划（Dynamic Programming，简称 **DP**）听起来名字很高级，但它的核心思想其实非常朴实：**不要重复计算已经算过的问题。**\n\n如果说递归是“自顶向下”地拆解问题，那么动态规划就是**“自底向上”**地通过解决小问题，并把结果存起来，最终推导出大问题的答案。\n\n要用动态规划解决一个问题，必须满足以下三个条件：\n\n1. **最优子结构**：大问题的最优解包含小问题的最优解。\n    \n2. **重叠子问题**：在递归过程中，同一个子问题会被反复计算（这是 DP 发挥作用的前提）。\n    \n3. **状态转移方程**：这是最难的一步，即找出“大问题”和“小问题”之间的数学关系。\n\n经典案例：\n这是理解 DP 最好的例子。你有一个背包，容量为 $W$，还有一堆物品，每个物品有重量 $w_i$ 和价值 $v_i$。每个物品只能选一次，怎么选价值最高？\n**暴力做法**：每个物品选或不选，复杂度 $O(2^n)$，物品多一点电脑就炸了。\n**DP 做法**：\n- 定义 $dp[i][j]$：在前 $i$ 件物品中选，容量为 $j$ 时的最大价值。\n- **决策**：\n    1. **不放第 $i$ 件**：价值等于 $dp[i-1][j]$。\n    2. **放第 $i$ 件**：前提是包够大，价值等于 $dp[i-1][j - w_i] + v_i$。\n- **方程**：$dp[i][j] = \\max(dp[i-1][j], dp[i-1][j - w_i] + v_i)$。\n\n或者斐波那契数列：$F(n) = F(n-1) + F(n-2)$\n- **暴力递归**：为了算 $F(5)$，要去算 $F(4)$ 和 $F(3)$；算 $F(4)$ 又要去算 $F(3)$...\n    \n    - **结果**：$F(3)$ 被重复算了好多次。这种指数级复杂度（$O(2^n)$）会让电脑直接卡死。\n        \n- **动态规划**：我开一个数组，把算出来的结果存起来。\n    \n    - 算完 $F(3)$ 存进 `dp[3]`。下次要用？直接从数组里拿。\n        \n    - **结果**：每个数只算一次，复杂度降到了 $O(n)$。 \n\n\n# 动态规划的本质\n先用暴力解法，再用备忘录剪枝。\n两种形式：\n# 自顶向下 vs 自底向上\n自顶向下：递归+memo\n自底向上：dp table+for循环 \n\n重点是如何找到递归的方程！\n\n# 动态规划的优化\n能够使用空间压缩技巧的动态规划一般都是二维 `dp` 问题，**你看它的状态转移方程，如果计算状态 `dp[i][j]` 需要的都是 `dp[i][j]` 相邻的状态，那么就可以使用空间压缩技巧**，将二维的 `dp` 数组转化成一维，将空间复杂度从 O(N^2) 降低到 O(N)。\n\n查看`dp[i][j]`的依赖对象","file":"posts/imported-post-1781172281444.md"}]}
+<!-- STATIC:blog-snapshot:end --></script>
   <script src="scripts/site-content.js?v=20260612-subpage-speed-1"></script>
-  <script src="scripts/markdown.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
   <script>
     document.querySelector("#current-year").textContent = new Date().getFullYear();
-
-    const articleMeta = document.querySelector("#article-meta");
-    const articleTitle = document.querySelector("#article-title");
-    const articleSummary = document.querySelector("#article-summary");
-    const articleTags = document.querySelector("#article-tags");
-    const readerContent = document.querySelector("#reader-content");
     const windowTitle = document.querySelector("#window-title");
-    let siteCopy = null;
+    const pageSnapshot = SiteContent.readEmbeddedJson("blog-page-snapshot");
 
-    function renderArticleHtml(markdown, title) {
-      readerContent.innerHTML = MarkdownParser.toHtml(markdown, title);
-
-      if (typeof renderMathInElement === "function") {
-        renderMathInElement(readerContent, {
-          throwOnError: false,
-          delimiters: [
-            { left: "$$", right: "$$", display: true },
-            { left: "$", right: "$", display: false }
-          ]
-        });
-      }
-    }
-
-    function renderInlineMarkdown(target, markdown) {
-      target.innerHTML = MarkdownParser.renderInline(markdown || "");
-
-      if (typeof renderMathInElement === "function") {
-        renderMathInElement(target, {
-          throwOnError: false,
-          delimiters: [
-            { left: "$$", right: "$$", display: true },
-            { left: "$", right: "$", display: false }
-          ]
-        });
-      }
-    }
-
-    function renderPostChoices(posts) {
-      const blogPage = siteCopy?.blogPage || {};
+    function applyBlogChrome(site) {
+      const blogPage = site?.blogPage || {};
+      SiteContent.applyNavigation(site);
+      SiteContent.applyTheme(site);
       SiteContent.applyMeta({
-        title: blogPage.title || "技术博客 | 朱绪达 KyleKK",
-        description: blogPage.metaDescription || "朱绪达 KyleKK 的技术博客列表与文章阅读。",
-        ogTitle: blogPage.ogTitle || "技术博客 | 朱绪达 KyleKK",
-        ogDescription: blogPage.ogDescription || "朱绪达 KyleKK 的技术博客，记录游戏研发、Unity、玩法系统和工程实践的复盘与笔记。",
+        title: blogPage.title || "技术博客 | KyleKK",
+        description: blogPage.metaDescription || "KyleKK 的技术博客列表与文章阅读。",
+        ogTitle: blogPage.ogTitle || "技术博客 | KyleKK",
+        ogDescription: blogPage.ogDescription || "KyleKK 的技术博客，记录游戏研发、Unity、玩法系统和工程实践的复盘与笔记。",
         ogUrl: "https://kylekk.com/blog.html"
       });
       windowTitle.textContent = blogPage.windowTitle || "posts.md";
-      articleMeta.textContent = "";
-      articleMeta.style.display = "none";
-      articleTitle.textContent = blogPage.listTitle || "技术博客";
-      renderInlineMarkdown(articleSummary, blogPage.listSummary || "技术复盘、项目笔记和学习记录。");
-      articleTags.innerHTML = "";
-      readerContent.innerHTML = `
-        <div class="post-list">
-          ${posts.map(post => `
-            <a class="post-option" href="blog.html?post=${encodeURIComponent(post.slug)}">
-              <small>${post.date}</small>
-              <h3>${post.title}</h3>
-              <p>${MarkdownParser.renderInline(post.summary || "")}</p>
-              <div class="post-tags">
-                ${post.tags.map(tag => `<span class="mini-tag">${SiteContent.escapeHtml(tag)}</span>`).join("")}
-              </div>
-            </a>
-          `).join("")}
-        </div>
-      `;
     }
 
-    async function loadArticle() {
+    async function initBlogPage() {
+      if (pageSnapshot?.site) {
+        applyBlogChrome(pageSnapshot.site);
+        return;
+      }
+
       try {
-        siteCopy = await SiteContent.fetchJson("content/site.json");
-        SiteContent.applyNavigation(siteCopy);
-        SiteContent.applyTheme(siteCopy);
-        const posts = await SiteContent.fetchPosts();
-        const slug = new URLSearchParams(window.location.search).get("post");
-
-        if (!slug) {
-          renderPostChoices(posts);
-          return;
-        }
-
-        const post = posts.find(item => item.slug === slug);
-        if (!post) {
-          const blogPage = siteCopy.blogPage || {};
-          articleMeta.style.display = "block";
-          windowTitle.textContent = "404.log";
-          articleMeta.textContent = blogPage.notFoundMeta || "Not Found";
-          articleTitle.textContent = blogPage.notFoundTitle || "没有找到这篇文章";
-          renderInlineMarkdown(articleSummary, blogPage.notFoundSummary || "可以返回博客列表重新选择一篇文章。");
-          articleTags.innerHTML = "";
-          readerContent.innerHTML = `<a class="post-link" href="blog.html">${SiteContent.escapeHtml(blogPage.notFoundBackLabel || "返回博客列表")}</a>`;
-          return;
-        }
-
-        const ownerName = siteCopy.ownerName || "朱绪达 KyleKK";
-        SiteContent.applyMeta({
-          title: `${post.title} | ${ownerName}`,
-          description: post.summary,
-          ogTitle: `${post.title} | ${ownerName}`,
-          ogDescription: post.summary,
-          ogUrl: `https://kylekk.com/blog.html?post=${encodeURIComponent(post.slug)}`
-        });
-        articleMeta.style.display = "block";
-        windowTitle.textContent = post.slug + ".md";
-        articleMeta.textContent = post.date;
-        articleTitle.textContent = post.title;
-        renderInlineMarkdown(articleSummary, post.summary || "");
-        articleTags.innerHTML = post.tags.map(tag => `<span class="mini-tag">${SiteContent.escapeHtml(tag)}</span>`).join("");
-        if (post.body) {
-          renderArticleHtml(post.body, post.title);
-          return;
-        }
-
-        const markdownResponse = await fetch(post.file, { cache: "no-cache" });
-        if (!markdownResponse.ok) {
-          throw new Error(`HTTP ${markdownResponse.status}`);
-        }
-        const markdown = await markdownResponse.text();
-        const parsed = SiteContent.parseMarkdownEntry(markdown);
-        renderArticleHtml(parsed.body || markdown, post.title);
-      } catch (error) {
-        const blogPage = siteCopy?.blogPage || {};
-        articleMeta.style.display = "block";
-        windowTitle.textContent = "error.log";
-        articleMeta.textContent = blogPage.loadErrorMeta || "Error";
-        articleTitle.textContent = blogPage.loadErrorTitle || "文章暂时无法加载";
-        articleSummary.textContent = "";
-        articleTags.innerHTML = "";
-        readerContent.innerHTML = `<p>${SiteContent.escapeHtml(blogPage.loadErrorMessage || "请确认本地预览是通过 HTTP 服务打开，并检查 posts/index.json 与 Markdown 文件路径。")}</p>`;
+        const site = await SiteContent.fetchJson("content/site.json");
+        applyBlogChrome(site);
+      } catch (_error) {
+        // Keep static HTML as fallback.
       }
     }
 
-    loadArticle();
+    initBlogPage();
   </script>
 </body>
 </html>

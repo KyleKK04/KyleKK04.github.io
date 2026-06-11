@@ -114,7 +114,7 @@ Agents should:
 - Preserve current page appearance.
 - Avoid breaking existing URLs.
 - Keep old `project.html?project=<slug>` links redirecting to `projects.html#project-<slug>`.
-- Keep old `blog.html?post=<slug>` links working.
+- Keep old `blog.html?post=<slug>` links working by redirecting to generated `posts/<slug>.html`.
 - Add validation before adding CMS complexity.
 - Document any new commands in README after implementation.
 

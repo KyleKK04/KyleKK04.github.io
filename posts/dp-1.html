@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="动态规划（Dynamic Programming，简称 **DP**）听起来名字很高级，但它的核心思想其实非常朴实：**不要重复计算已经算过的问题。**">
+  <title>动态规划的本质 | KyleKK</title>
+  <meta property="og:title" content="动态规划的本质 | KyleKK">
+  <meta property="og:description" content="动态规划（Dynamic Programming，简称 **DP**）听起来名字很高级，但它的核心思想其实非常朴实：**不要重复计算已经算过的问题。**">
+  <meta property="og:url" content="https://kylekk.com/posts/dp-1.html">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="../styles/main.css?v=20260611-blog-readability-3">
+  <style>
+    :root {
+      --bg-image: url("/res/background.jpg");
+      --bg-image-fit: contain;
+      --bg-image-position: center;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 15% 10%, rgba(83, 216, 140, 0.04), transparent 30rem),
+        radial-gradient(circle at 80% 20%, rgba(111, 183, 214, 0.025), transparent 25rem),
+        var(--bg);
+      line-height: 1.75;
+    }
+
+    .page {
+      width: min(1080px, calc(100% - 40px));
+    }
+
+    .article-window {
+      margin: 0 0 54px;
+    }
+
+    .article-window .window-body {
+      padding: 38px 40px 42px;
+    }
+
+    .article-meta {
+      margin-bottom: 14px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .article-title {
+      max-width: 920px;
+      margin-bottom: 16px;
+      font-size: 38px;
+      line-height: 1.14;
+      letter-spacing: -0.01em;
+      overflow-wrap: anywhere;
+      font-weight: 700;
+    }
+
+    .article-summary {
+      max-width: 52em;
+      margin-bottom: 24px;
+      color: #d9e1de;
+      font-size: 15px;
+      line-height: 1.9;
+      font-weight: 500;
+    }
+
+    .article-summary strong {
+      color: #f4f7f6;
+    }
+
+    .reader-content .katex {
+      color: #dfe7e3;
+    }
+
+    .reader-content .katex-display {
+      margin: 1.2rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 0.15rem;
+    }
+
+    .article-window .mini-tag {
+      color: #b8ffd5;
+      background: rgba(83, 216, 140, 0.24);
+      border-color: rgba(83, 216, 140, 0.48);
+      box-shadow: inset 0 0 0 1px rgba(83, 216, 140, 0.08);
+    }
+
+    .reader-content {
+      max-width: 52em;
+      color: #e0e7e3;
+      font-size: 14px;
+      line-height: 1.95;
+    }
+
+    .reader-content p,
+    .reader-content ul,
+    .reader-content ol,
+    .reader-content li {
+      color: #dce5e1;
+    }
+
+    .reader-content p {
+      margin: 15px 0;
+    }
+
+    .reader-content ul,
+    .reader-content ol {
+      margin: 15px 0 15px 26px;
+    }
+
+    .reader-content li {
+      margin: 6px 0;
+      padding-left: 2px;
+    }
+
+    .reader-content strong {
+      color: #f5f7f6;
+      font-weight: 700;
+    }
+
+    .reader-content h1,
+    .reader-content h2,
+    .reader-content h3 {
+      max-width: 28em;
+      margin-top: 34px;
+      color: #f3f6f4;
+    }
+
+    .reader-content blockquote {
+      color: #dce5e1;
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid rgba(83, 216, 140, 0.82);
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .reader-content code {
+      padding: 0.12em 0.32em;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #eef6f1;
+    }
+
+    .reader-content pre {
+      margin: 18px 0;
+      padding: 16px 18px;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    .reader-content pre code {
+      padding: 0;
+      background: transparent;
+    }
+
+    .post-link {
+      color: var(--primary);
+    }
+
+    @media (max-width: 640px) {
+      .article-window .window-body {
+        padding: 22px;
+      }
+
+      .article-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav">
+      <a class="logo" href="../index.html">KyleKK</a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="../projects.html">Projects</a>
+        <a href="../profile.html">Profile</a>
+        <a class="active" href="../blog.html">Notes</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <article class="terminal-window article-window">
+        <div class="window-header">
+          <span class="window-dot red"></span>
+          <span class="window-dot yellow"></span>
+          <span class="window-dot green"></span>
+          <span class="window-title">dp-1.md</span>
+        </div>
+        <div class="window-body">
+          <div class="article-meta">2026-06-11</div>
+          <h1 class="article-title">动态规划的本质</h1>
+          <p class="article-summary" id="article-summary">动态规划（Dynamic Programming，简称 <strong>DP</strong>）听起来名字很高级，但它的核心思想其实非常朴实：<strong>不要重复计算已经算过的问题。</strong></p>
+          <div class="post-tags">
+            <span class="mini-tag">动态规划</span>
+          </div>
+          <div class="reader-content" id="reader-content">
+            <p>动态规划（Dynamic Programming，简称 <strong>DP</strong>）听起来名字很高级，但它的核心思想其实非常朴实：<strong>不要重复计算已经算过的问题。</strong></p>
+<p>如果说递归是“自顶向下”地拆解问题，那么动态规划就是<strong>“自底向上”</strong>地通过解决小问题，并把结果存起来，最终推导出大问题的答案。</p>
+<p>要用动态规划解决一个问题，必须满足以下三个条件：</p>
+<ol>
+<li><strong>最优子结构</strong>：大问题的最优解包含小问题的最优解。</li>
+</ol>
+<ol>
+<li><strong>重叠子问题</strong>：在递归过程中，同一个子问题会被反复计算（这是 DP 发挥作用的前提）。</li>
+</ol>
+<ol>
+<li><strong>状态转移方程</strong>：这是最难的一步，即找出“大问题”和“小问题”之间的数学关系。</li>
+</ol>
+<p>经典案例：</p>
+<p>这是理解 DP 最好的例子。你有一个背包，容量为 $W$，还有一堆物品，每个物品有重量 $w_i$ 和价值 $v_i$。每个物品只能选一次，怎么选价值最高？</p>
+<p><strong>暴力做法</strong>：每个物品选或不选，复杂度 $O(2^n)$，物品多一点电脑就炸了。</p>
+<p><strong>DP 做法</strong>：</p>
+<ul>
+<li>定义 $dp[i][j]$：在前 $i$ 件物品中选，容量为 $j$ 时的最大价值。</li>
+</ul>
+<ul>
+<li><strong>决策</strong>：</li>
+<ol>
+<li><strong>不放第 $i$ 件</strong>：价值等于 $dp[i-1][j]$。</li>
+<li><strong>放第 $i$ 件</strong>：前提是包够大，价值等于 $dp[i-1][j - w_i] + v_i$。</li>
+</ol>
+</ul>
+<ul>
+<li><strong>方程</strong>：$dp[i][j] = \max(dp[i-1][j], dp[i-1][j - w_i] + v_i)$。</li>
+</ul>
+<p>或者斐波那契数列：$F(n) = F(n-1) + F(n-2)$</p>
+<ul>
+<li><strong>暴力递归</strong>：为了算 $F(5)$，要去算 $F(4)$ 和 $F(3)$；算 $F(4)$ 又要去算 $F(3)$...</li>
+</ul>
+<ul>
+<li><strong>结果</strong>：$F(3)$ 被重复算了好多次。这种指数级复杂度（$O(2^n)$）会让电脑直接卡死。</li>
+</ul>
+<ul>
+<li><strong>动态规划</strong>：我开一个数组，把算出来的结果存起来。</li>
+</ul>
+<ul>
+<li>算完 $F(3)$ 存进 <code>dp[3]</code>。下次要用？直接从数组里拿。</li>
+</ul>
+<ul>
+<li><strong>结果</strong>：每个数只算一次，复杂度降到了 $O(n)$。</li>
+</ul>
+<h1>动态规划的本质</h1>
+<p>先用暴力解法，再用备忘录剪枝。</p>
+<p>两种形式：</p>
+<h1>自顶向下 vs 自底向上</h1>
+<p>自顶向下：递归+memo</p>
+<p>自底向上：dp table+for循环 </p>
+<p>重点是如何找到递归的方程！</p>
+<h1>动态规划的优化</h1>
+<p>能够使用空间压缩技巧的动态规划一般都是二维 <code>dp</code> 问题，<strong>你看它的状态转移方程，如果计算状态 <code>dp[i][j]</code> 需要的都是 <code>dp[i][j]</code> 相邻的状态，那么就可以使用空间压缩技巧</strong>，将二维的 <code>dp</code> 数组转化成一维，将空间复杂度从 O(N^2) 降低到 O(N)。</p>
+<p>查看<code>dp[i][j]</code>的依赖对象</p>
+          </div>
+          <p style="margin-top:28px"><a class="post-link" href="../blog.html">返回博客列表</a></p>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      <p>&copy; <span id="current-year">2026</span> KyleKK</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script src="../scripts/post-page.js"></script>
+</body>
+</html>
