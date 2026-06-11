@@ -98,7 +98,7 @@ collections:
         fields:
           - { label: 站点名称, name: siteName, widget: string }
           - { label: 署名名称, name: ownerName, widget: string, hint: "用于页面标题和版权信息，例如 朱绪达 KyleKK。" }
-          - { label: 背景图, name: backgroundImage, widget: image, required: false, hint: "用于全站背景。当前可使用 /res/background.png，也可以上传新图片覆盖。" }
+          - { label: 背景图, name: backgroundImage, widget: image, required: false, hint: "用于全站背景。当前可使用 /res/background.jpg，也可以上传新图片覆盖。" }
           - label: 背景图显示方式
             name: backgroundFit
             widget: select

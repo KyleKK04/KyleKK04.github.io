@@ -1,8 +1,25 @@
 (function () {
+  const INTRO_SESSION_KEY = "matrix-intro-shown";
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const INTRO_DURATION = prefersReducedMotion ? 220 : 2400;
-  const REVEAL_DELAY = prefersReducedMotion ? 0 : 1500;
-  const FADE_DURATION = prefersReducedMotion ? 180 : 850;
+  const INTRO_DURATION = prefersReducedMotion ? 180 : 1200;
+  const REVEAL_DELAY = prefersReducedMotion ? 0 : 220;
+  const FADE_DURATION = prefersReducedMotion ? 160 : 420;
+
+  function hasSeenIntro() {
+    try {
+      return window.sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
+    } catch (_error) {
+      return false;
+    }
+  }
+
+  function markIntroSeen() {
+    try {
+      window.sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+    } catch (_error) {
+      // Ignore storage failures and keep the intro functional.
+    }
+  }
 
   function randomDigit() {
     return Math.random() > 0.5 ? "1" : "0";
@@ -124,8 +141,13 @@
   function init() {
     const page = document.querySelector(".page");
     if (!page || !document.body.dataset.matrixIntro) return;
+    if (hasSeenIntro()) {
+      document.body.classList.add("matrix-ready");
+      return;
+    }
 
     document.body.classList.add("matrix-intro-active");
+    markIntroSeen();
     const { overlay, canvas } = createIntro();
     document.body.appendChild(overlay);
 

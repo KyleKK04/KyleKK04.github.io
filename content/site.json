@@ -13,7 +13,7 @@
     "lead": " ",
     "loadErrorLead": "项目文案暂时无法加载。"
   },
-  "backgroundImage": "/res/background.png",
+  "backgroundImage": "/res/background.jpg",
   "contactPage": {
     "windowTitle": "contact.log",
     "kicker": "Contact",

@@ -20,7 +20,7 @@
   --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   --radius: 6px;
   --radius-sm: 4px;
-  --bg-image: url("/res/background.png");
+  --bg-image: url("/res/background.jpg");
   --bg-image-fit: contain;
   --bg-image-position: center;
 }
