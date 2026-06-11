@@ -220,14 +220,7 @@
           <h1 class="article-title" id="article-title">技术博客</h1>
           <p class="article-summary" id="article-summary">技术复盘、项目笔记和学习记录。</p>
           <div class="post-tags" id="article-tags"></div>
-          <div class="reader-content" id="reader-content">
-            <div class="post-list">
-              <article class="post-option skeleton-card"></article>
-              <article class="post-option skeleton-card"></article>
-              <article class="post-option skeleton-card"></article>
-              <article class="post-option skeleton-card"></article>
-            </div>
-          </div>
+          <div class="reader-content" id="reader-content"></div>
         </div>
       </article>
     </main>
@@ -251,18 +244,6 @@
     const readerContent = document.querySelector("#reader-content");
     const windowTitle = document.querySelector("#window-title");
     let siteCopy = null;
-
-    function renderReaderSkeleton() {
-      return `
-        <div class="skeleton-text-group">
-          <span class="skeleton-line long"></span>
-          <span class="skeleton-line long"></span>
-          <span class="skeleton-line medium"></span>
-          <span class="skeleton-line long"></span>
-          <span class="skeleton-line short"></span>
-        </div>
-      `;
-    }
 
     function renderArticleHtml(markdown, title) {
       readerContent.innerHTML = MarkdownParser.toHtml(markdown, title);
@@ -363,8 +344,6 @@
         articleTitle.textContent = post.title;
         renderInlineMarkdown(articleSummary, post.summary || "");
         articleTags.innerHTML = post.tags.map(tag => `<span class="mini-tag">${SiteContent.escapeHtml(tag)}</span>`).join("");
-        readerContent.innerHTML = renderReaderSkeleton();
-
         if (post.body) {
           renderArticleHtml(post.body, post.title);
           return;
