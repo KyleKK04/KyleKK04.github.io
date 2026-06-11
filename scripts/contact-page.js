@@ -36,8 +36,11 @@ function renderContact(contact) {
 
 async function initContactPage() {
   try {
-    siteCopy = await SiteContent.fetchJson("content/site.json");
-    const contact = await SiteContent.fetchJson("content/contact.json");
+    const [site, contact] = await Promise.all([
+      SiteContent.fetchJson("content/site.json"),
+      SiteContent.fetchJson("content/contact.json")
+    ]);
+    siteCopy = site;
     renderContact(contact);
   } catch (error) {
     if (siteCopy) {

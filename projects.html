@@ -214,7 +214,7 @@
     </footer>
   </div>
 
-  <script src="scripts/site-content.js?v=20260611-project-live"></script>
+  <script src="scripts/site-content.js?v=20260612-subpage-speed-1"></script>
   <script>
     document.querySelector("#current-year").textContent = new Date().getFullYear();
 
@@ -259,9 +259,12 @@
 
     async function initProjects() {
       try {
-        siteCopy = await SiteContent.fetchJson("content/site.json");
+        const [site, projects] = await Promise.all([
+          SiteContent.fetchJson("content/site.json"),
+          SiteContent.fetchProjects()
+        ]);
+        siteCopy = site;
         renderPageHeader(siteCopy);
-        const projects = await SiteContent.fetchProjects();
         renderProjects(projects);
       } catch (error) {
         const projectsPage = siteCopy?.projectsPage || {};

@@ -171,6 +171,11 @@ const SiteContent = (() => {
     document.documentElement.style.setProperty("--bg-image-position", backgroundPosition);
   }
 
+  function shouldHydrateFromSourceFiles() {
+    const host = window.location.hostname;
+    return host === "localhost" || host === "127.0.0.1" || host === "::1";
+  }
+
   async function fetchJson(url) {
     const response = await fetch(url, { cache: "no-store" });
     if (!response.ok) {
@@ -249,6 +254,9 @@ const SiteContent = (() => {
 
   async function fetchProjects() {
     const index = await fetchJson("projects/index.json");
+    if (!shouldHydrateFromSourceFiles()) {
+      return index;
+    }
 
     return Promise.all(index.map(async project => {
       if (!project.sourceFile) return project;
@@ -269,6 +277,9 @@ const SiteContent = (() => {
 
   async function fetchPosts() {
     const index = await fetchJson("posts/index.json");
+    if (!shouldHydrateFromSourceFiles()) {
+      return index;
+    }
 
     return Promise.all(index.map(async post => {
       if (!post.sourceFile) return post;

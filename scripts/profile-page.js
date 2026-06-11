@@ -60,8 +60,11 @@ function renderProfile(profile) {
 
 async function initProfilePage() {
   try {
-    siteCopy = await SiteContent.fetchJson("content/site.json");
-    const profile = await SiteContent.fetchJson("content/profile.json");
+    const [site, profile] = await Promise.all([
+      SiteContent.fetchJson("content/site.json"),
+      SiteContent.fetchJson("content/profile.json")
+    ]);
+    siteCopy = site;
     renderProfile(profile);
   } catch (error) {
     if (siteCopy) {
