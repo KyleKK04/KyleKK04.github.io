@@ -192,6 +192,18 @@ const SiteContent = (() => {
     return response.text();
   }
 
+  function readEmbeddedJson(id) {
+    const node = document.getElementById(id);
+    if (!node) return null;
+
+    try {
+      const raw = node.textContent?.trim();
+      return raw ? JSON.parse(raw) : null;
+    } catch (_error) {
+      return null;
+    }
+  }
+
   function parseFrontmatterValue(rawValue) {
     const value = String(rawValue ?? "").trim();
     if (value === "true") return true;
@@ -309,6 +321,7 @@ const SiteContent = (() => {
     applyNavigation,
     applyTheme,
     fetchJson,
+    readEmbeddedJson,
     fetchProjects,
     fetchPosts,
     parseMarkdownEntry

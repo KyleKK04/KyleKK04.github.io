@@ -3,8 +3,9 @@ document.querySelector("#current-year").textContent = new Date().getFullYear();
 const profileShell = document.querySelector("#profile-content");
 const profileWindowTitle = document.querySelector("#profile-window-title");
 let siteCopy = null;
+const pageSnapshot = SiteContent.readEmbeddedJson("profile-page-snapshot");
 
-function renderProfile(profile) {
+function applyProfileChrome(profile) {
   const ownerName = siteCopy?.ownerName || "朱绪达 KyleKK";
   const profilePage = siteCopy?.profilePage || {};
   SiteContent.applyNavigation(siteCopy || {});
@@ -17,7 +18,11 @@ function renderProfile(profile) {
     ogUrl: "https://kylekk.com/profile.html"
   });
   profileWindowTitle.textContent = profilePage.windowTitle || "profile.log";
+}
 
+function renderProfile(profile) {
+  const profilePage = siteCopy?.profilePage || {};
+  applyProfileChrome(profile);
   profileShell.innerHTML = `
     <div class="profile-meta">${SiteContent.escapeHtml(profilePage.kicker || "Profile")}</div>
     <h1 class="profile-title" id="profile-title">${SiteContent.escapeHtml(profile.headline)}</h1>
@@ -59,6 +64,12 @@ function renderProfile(profile) {
 }
 
 async function initProfilePage() {
+  if (pageSnapshot?.site && pageSnapshot?.profile) {
+    siteCopy = pageSnapshot.site;
+    applyProfileChrome(pageSnapshot.profile);
+    return;
+  }
+
   try {
     const [site, profile] = await Promise.all([
       SiteContent.fetchJson("content/site.json"),

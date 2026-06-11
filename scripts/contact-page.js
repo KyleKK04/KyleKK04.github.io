@@ -3,8 +3,9 @@ document.querySelector("#current-year").textContent = new Date().getFullYear();
 const contactShell = document.querySelector("#contact-content");
 const contactWindowTitle = document.querySelector("#contact-window-title");
 let siteCopy = null;
+const pageSnapshot = SiteContent.readEmbeddedJson("contact-page-snapshot");
 
-function renderContact(contact) {
+function applyContactChrome(contact) {
   const ownerName = siteCopy?.ownerName || "朱绪达 KyleKK";
   const contactPage = siteCopy?.contactPage || {};
   SiteContent.applyNavigation(siteCopy || {});
@@ -17,7 +18,11 @@ function renderContact(contact) {
     ogUrl: "https://kylekk.com/contact.html"
   });
   contactWindowTitle.textContent = contactPage.windowTitle || "contact.log";
+}
 
+function renderContact(contact) {
+  const contactPage = siteCopy?.contactPage || {};
+  applyContactChrome(contact);
   contactShell.innerHTML = `
     <div class="contact-meta">${SiteContent.escapeHtml(contactPage.kicker || "Contact")}</div>
     <h1 class="contact-title" id="contact-title">${SiteContent.escapeHtml(contact.headline)}</h1>
@@ -35,6 +40,12 @@ function renderContact(contact) {
 }
 
 async function initContactPage() {
+  if (pageSnapshot?.site && pageSnapshot?.contact) {
+    siteCopy = pageSnapshot.site;
+    applyContactChrome(pageSnapshot.contact);
+    return;
+  }
+
   try {
     const [site, contact] = await Promise.all([
       SiteContent.fetchJson("content/site.json"),
