@@ -1,0 +1,91 @@
+{
+  "metaDescription": "KyleKK 的游戏研发经历、Unity 技能栈、Game Jam 与玩法原型实践。",
+  "headline": "经历与技能",
+  "summary": "偏玩法、系统和工具链方向，正在把校园项目、Game Jam 经验和实习实践持续整理成可复用的方法。",
+  "panelTitle": "Gameplay Developer Intern",
+  "hero": {
+    "kicker": [
+      "Gameplay Developer",
+      "Unity",
+      "Prototype"
+    ],
+    "name": "朱绪达 KyleKK",
+    "highlight": "Game Dev Lab",
+    "description": "软件工程本科在读，目前在快手游戏研发部实习。关注 Unity 玩法开发、系统设计、工具链和快速原型，把想法推进到可玩、可迭代、可复盘的版本。",
+    "readout": [
+      {
+        "label": "Unity",
+        "value": "Gameplay / Tools"
+      },
+      {
+        "label": "C#",
+        "value": "Systems / UI"
+      },
+      {
+        "label": "Jam",
+        "value": "Rapid Prototype"
+      }
+    ]
+  },
+  "status": [
+    {
+      "label": "Now",
+      "value": "快手游戏研发部实习"
+    },
+    {
+      "label": "Focus",
+      "value": "Unity 玩法开发 / 系统设计 / 工具链"
+    },
+    {
+      "label": "Mode",
+      "value": "从核心循环开始，快速验证，再迭代表现和架构。"
+    }
+  ],
+  "timeline": [
+    {
+      "time": "现在",
+      "title": "快手游戏研发部实习",
+      "description": "参与游戏研发相关工作，在真实项目环境中学习工程协作、研发流程和线上产品的质量要求。"
+    },
+    {
+      "time": "校园阶段",
+      "title": "游戏开发社群与工作室",
+      "description": "参与游研社和游戏开发工作室相关建设，整理入门文档，帮助新人理解 Unity、游戏设计和快速原型流程。"
+    },
+    {
+      "time": "持续进行",
+      "title": "Game Jam 与独立项目",
+      "description": "多次参与短周期开发和独立项目，从玩法验证、系统实现到表现迭代都有实践积累。"
+    }
+  ],
+  "skills": [
+    {
+      "label": "Engine & Core",
+      "items": [
+        "Unity",
+        "C#",
+        "Gameplay Programming",
+        "C++"
+      ]
+    },
+    {
+      "label": "Frameworks & Tools",
+      "items": [
+        "UGUI",
+        "DOTween",
+        "UniRx",
+        "QFramework",
+        "ScriptableObject"
+      ]
+    },
+    {
+      "label": "Methods & Workflow",
+      "items": [
+        "MVC",
+        "Shader",
+        "Git",
+        "Game Jam"
+      ]
+    }
+  ]
+}

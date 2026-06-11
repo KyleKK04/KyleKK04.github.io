@@ -1,0 +1,25 @@
+name: Content Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  content-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build Content
+        run: npm run content:build
+
+      - name: Validate Content
+        run: npm run content:validate

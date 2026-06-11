@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="朱绪达 KyleKK 的联系方式。">
+  <title>联系我 | 朱绪达 KyleKK</title>
+  <meta property="og:title" content="联系我 | 朱绪达 KyleKK">
+  <meta property="og:description" content="如果你想聊游戏开发、Unity、玩法原型、Game Jam 或实习相关的话题，可以从这里找到朱绪达 KyleKK。">
+  <meta property="og:url" content="https://kylekk.com/contact.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="styles/main.css?v=20260611-project-live">
+  <style>
+    body {
+      background: #050505;
+    }
+
+    .page {
+      width: min(980px, calc(100% - 40px));
+    }
+
+    .contact-window {
+      margin: 60px 0 54px;
+    }
+
+    .contact-window .window-body {
+      padding: 32px;
+    }
+
+    .contact-meta {
+      margin-bottom: 14px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .contact-title {
+      max-width: 820px;
+      margin-bottom: 16px;
+      font-size: 38px;
+      line-height: 1.14;
+      letter-spacing: -0.01em;
+      overflow-wrap: anywhere;
+      font-weight: 700;
+    }
+
+    .contact-summary {
+      max-width: 720px;
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: 16px;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-window .contact-layout {
+      grid-template-columns: minmax(0, 0.78fr) minmax(420px, 1.22fr);
+    }
+
+    .contact-window .contact-layout > *,
+    .contact-window .contact-actions > * {
+      min-width: 0;
+    }
+
+    .contact-window .contact-copy,
+    .contact-window .contact-card span {
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: 100%;
+      }
+
+      .contact-window .window-body {
+        padding: 22px;
+      }
+
+      .contact-title {
+        font-size: 28px;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .contact-window .contact-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav">
+      <a class="logo" href="index.html" data-site-logo>KyleKK</a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="projects.html" data-nav-key="projects">Projects</a>
+        <a href="profile.html" data-nav-key="profile">Profile</a>
+        <a href="blog.html" data-nav-key="notes">Notes</a>
+        <a class="active" href="contact.html" data-nav-key="contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <article class="terminal-window contact-window" aria-labelledby="contact-title">
+        <div class="window-header">
+          <span class="window-dot red"></span>
+          <span class="window-dot yellow"></span>
+          <span class="window-dot green"></span>
+          <span class="window-title" id="contact-window-title">contact.log</span>
+        </div>
+        <div class="window-body" id="contact-content">
+          <div class="skeleton-text-group">
+            <span class="skeleton-line short"></span>
+            <span class="skeleton-line medium"></span>
+            <span class="skeleton-line long"></span>
+            <span class="skeleton-line long"></span>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      <p>&copy; <span id="current-year"></span> 朱绪达 KyleKK</p>
+    </footer>
+  </div>
+
+  <script src="scripts/site-content.js?v=20260611-project-live"></script>
+  <script src="scripts/contact-page.js?v=20260611-site-copy"></script>
+</body>
+</html>

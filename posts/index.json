@@ -1,0 +1,13 @@
+[
+  {
+    "sourceFile": "content/posts/imported-post-1781172281444.md",
+    "slug": "dp-1",
+    "title": "动态规划的本质",
+    "date": "2026-06-11",
+    "summary": "动态规划（Dynamic Programming，简称 **DP**）听起来名字很高级，但它的核心思想其实非常朴实：**不要重复计算已经算过的问题。**",
+    "tags": [
+      "动态规划"
+    ],
+    "file": "posts/imported-post-1781172281444.md"
+  }
+]

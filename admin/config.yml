@@ -1,0 +1,308 @@
+local_backend: true
+locale: zh_Hans
+
+backend:
+  name: github
+  repo: KyleKK04/KyleKK04.github.io
+  branch: main
+
+site_url: https://kylekk.com
+display_url: https://kylekk.com
+logo_url: /assets/favicon.svg
+
+media_folder: assets/uploads
+public_folder: /assets/uploads
+
+collections:
+  - name: projects
+    label: 项目
+    label_singular: 项目
+    description: 管理项目卡片的标题、封面、简介和游玩入口。
+    folder: content/projects
+    create: true
+    extension: md
+    format: frontmatter
+    identifier_field: slug
+    slug: "{{fields.slug}}"
+    summary: "{{fields.title}}"
+    fields:
+      - { label: URL 标识, name: slug, widget: string, hint: "请使用小写英文字母和连字符，例如 empty-box。发布后尽量不要修改。" }
+      - { label: 项目名称, name: title, widget: string }
+      - { label: 项目简介, name: summary, widget: text, hint: "用一两句话说明项目玩法、个人职责或主要亮点。" }
+      - { label: 试玩链接, name: playLink, widget: string, required: false, hint: "项目可玩地址，例如 itch.io 或 WebGL 构建地址。" }
+      - { label: 试玩按钮文字, name: playLabel, widget: string, required: false, default: "去游玩" }
+      - { label: 封面图片, name: cover, widget: image, required: false }
+      - label: 封面显示方式
+        name: coverFit
+        widget: select
+        default: cover
+        hint: "图片主体被裁掉时选择“完整显示”；希望铺满封面区域时选择“裁剪填满”。"
+        options:
+          - { label: 裁剪填满, value: cover }
+          - { label: 完整显示, value: contain }
+      - label: 封面主体位置
+        name: coverPosition
+        widget: select
+        default: center
+        hint: "使用“裁剪填满”时，可调整希望优先保留的图片区域。"
+        options:
+          - { label: 居中, value: center }
+          - { label: 顶部, value: top }
+          - { label: 底部, value: bottom }
+          - { label: 左侧, value: left }
+          - { label: 右侧, value: right }
+      - { label: 封面文字, name: coverLabel, widget: string, hint: "没有上传封面图片时显示的短文字。" }
+      - label: 主题色
+        name: tone
+        widget: select
+        options:
+          - { label: 青绿色, value: teal }
+          - { label: 琥珀色, value: amber }
+          - { label: 紫色, value: violet }
+          - { label: 玫红色, value: rose }
+          - { label: 蓝色, value: blue }
+          - { label: 绿色, value: green }
+      - { label: 首页精选, name: featured, widget: boolean, default: true, hint: "开启后，该项目可以出现在首页精选项目区域。" }
+
+  - name: posts
+    label: 博客文章
+    label_singular: 文章
+    description: 管理技术复盘、项目笔记和学习记录。
+    folder: content/posts
+    create: true
+    extension: md
+    format: frontmatter
+    identifier_field: slug
+    slug: "{{fields.slug}}"
+    summary: "{{fields.title}}"
+    fields:
+      - { label: URL 标识, name: slug, widget: string, hint: "请使用小写英文字母和连字符，例如 unity-project-structure。" }
+      - { label: 文章标题, name: title, widget: string }
+      - { label: 发布日期, name: date, widget: datetime, format: "YYYY-MM-DD", time_format: false }
+      - { label: 文章摘要, name: summary, widget: text, hint: "用于博客列表和首页预览。" }
+      - label: 标签
+        name: tags
+        widget: list
+        field: { label: 标签, name: tag, widget: string }
+      - label: 文章正文
+        name: body
+        widget: text
+        hint: "直接粘贴或编写原始 Markdown。"
+
+  - name: site_data
+    label: 网站资料
+    files:
+      - label: 站点文案
+        name: site
+        file: content/site.json
+        fields:
+          - { label: 站点名称, name: siteName, widget: string }
+          - { label: 署名名称, name: ownerName, widget: string, hint: "用于页面标题和版权信息，例如 朱绪达 KyleKK。" }
+          - { label: 背景图, name: backgroundImage, widget: image, required: false, hint: "用于全站背景。当前可使用 /res/background.png，也可以上传新图片覆盖。" }
+          - label: 背景图显示方式
+            name: backgroundFit
+            widget: select
+            default: contain
+            hint: "完整显示可保留整张图细节；裁剪填满会铺满屏幕但可能切掉边缘。"
+            options:
+              - { label: 完整显示, value: contain }
+              - { label: 裁剪填满, value: cover }
+          - label: 背景图对齐位置
+            name: backgroundPosition
+            widget: select
+            default: center
+            options:
+              - { label: 居中, value: center }
+              - { label: 顶部, value: top }
+              - { label: 底部, value: bottom }
+              - { label: 左侧, value: left }
+              - { label: 右侧, value: right }
+          - label: 导航文案
+            name: navigation
+            widget: object
+            fields:
+              - { label: 项目, name: projects, widget: string }
+              - { label: 经历, name: profile, widget: string }
+              - { label: 博客, name: notes, widget: string }
+              - { label: 联系, name: contact, widget: string }
+          - label: 首页文案
+            name: home
+            widget: object
+            fields:
+              - { label: 页面标题, name: title, widget: string }
+              - { label: 搜索摘要, name: metaDescription, widget: text }
+              - { label: 分享标题, name: ogTitle, widget: string }
+              - { label: 分享摘要, name: ogDescription, widget: text }
+              - { label: 面板文件名, name: panelWindowTitle, widget: string }
+              - label: 首页首屏
+                name: hero
+                widget: object
+                fields:
+                  - label: 方向标签
+                    name: kicker
+                    widget: list
+                    required: false
+                    field: { label: 标签, name: item, widget: string }
+                  - { label: 姓名, name: name, widget: string, required: false }
+                  - { label: 高亮标题, name: highlight, widget: string, required: false }
+                  - { label: 首屏介绍, name: description, widget: text, required: false }
+                  - label: 核心方向
+                    name: readout
+                    widget: list
+                    required: false
+                    fields:
+                      - { label: 标题, name: label, widget: string }
+                      - { label: 说明, name: value, widget: string }
+                  - { label: 主按钮文案, name: primaryLabel, widget: string, required: false }
+                  - { label: 次按钮文案, name: secondaryLabel, widget: string, required: false }
+              - label: 首页个人卡片
+                name: profilePreview
+                widget: object
+                fields:
+                  - { label: 身份标题, name: panelTitle, widget: string, required: false }
+                  - { label: 简介文案, name: summary, widget: text, required: false }
+              - label: 区块文案
+                name: sections
+                widget: object
+                fields:
+                  - label: 项目区块
+                    name: projects
+                    widget: object
+                    fields:
+                      - { label: 小标题, name: kicker, widget: string }
+                      - { label: 主标题, name: title, widget: string }
+                      - { label: 入口文案, name: detailLabel, widget: string }
+                      - { label: 说明文案, name: lead, widget: text }
+                  - label: 经历区块
+                    name: profile
+                    widget: object
+                    fields:
+                      - { label: 小标题, name: kicker, widget: string }
+                      - { label: 主标题, name: title, widget: string }
+                      - { label: 入口文案, name: detailLabel, widget: string }
+                  - label: 博客区块
+                    name: notes
+                    widget: object
+                    fields:
+                      - { label: 小标题, name: kicker, widget: string }
+                      - { label: 主标题, name: title, widget: string }
+                      - { label: 入口文案, name: detailLabel, widget: string }
+                  - label: 联系区块
+                    name: contact
+                    widget: object
+                    fields:
+                      - { label: 小标题, name: kicker, widget: string }
+                      - { label: 主标题, name: title, widget: string }
+                      - { label: 入口文案, name: detailLabel, widget: string }
+          - label: 项目页文案
+            name: projectsPage
+            widget: object
+            fields:
+              - { label: 页面标题, name: title, widget: string }
+              - { label: 搜索摘要, name: metaDescription, widget: text }
+              - { label: 分享标题, name: ogTitle, widget: string }
+              - { label: 分享摘要, name: ogDescription, widget: text }
+              - { label: 窗口文件名, name: windowTitle, widget: string }
+              - { label: 小标题, name: kicker, widget: string }
+              - { label: 主标题, name: headline, widget: string }
+              - { label: 说明文案, name: lead, widget: text }
+              - { label: 加载失败说明, name: loadErrorLead, widget: text }
+              - { label: 加载失败标题, name: loadErrorTitle, widget: string }
+              - { label: 加载失败提示, name: loadErrorSummary, widget: text }
+          - label: 博客页文案
+            name: blogPage
+            widget: object
+            fields:
+              - { label: 页面标题, name: title, widget: string }
+              - { label: 搜索摘要, name: metaDescription, widget: text }
+              - { label: 分享标题, name: ogTitle, widget: string }
+              - { label: 分享摘要, name: ogDescription, widget: text }
+              - { label: 窗口文件名, name: windowTitle, widget: string }
+              - { label: 列表标题, name: listTitle, widget: string }
+              - { label: 列表说明, name: listSummary, widget: text }
+              - { label: 未找到标记, name: notFoundMeta, widget: string }
+              - { label: 未找到标题, name: notFoundTitle, widget: string }
+              - { label: 未找到说明, name: notFoundSummary, widget: text }
+              - { label: 返回列表按钮, name: notFoundBackLabel, widget: string }
+              - { label: 加载失败标记, name: loadErrorMeta, widget: string }
+              - { label: 加载失败标题, name: loadErrorTitle, widget: string }
+              - { label: 加载失败说明, name: loadErrorMessage, widget: text }
+          - label: 经历页文案
+            name: profilePage
+            widget: object
+            fields:
+              - { label: 窗口文件名, name: windowTitle, widget: string }
+              - { label: 小标题, name: kicker, widget: string }
+              - { label: 加载失败说明, name: loadErrorMessage, widget: text }
+          - label: 联系页文案
+            name: contactPage
+            widget: object
+            fields:
+              - { label: 窗口文件名, name: windowTitle, widget: string }
+              - { label: 小标题, name: kicker, widget: string }
+              - { label: 加载失败说明, name: loadErrorMessage, widget: text }
+
+      - label: 个人资料
+        name: profile
+        file: content/profile.json
+        fields:
+          - { label: 搜索摘要, name: metaDescription, widget: text, hint: "用于搜索引擎和社交分享的页面说明。" }
+          - { label: 页面标题, name: headline, widget: string }
+          - { label: 个人简介, name: summary, widget: text }
+          - { label: 身份标题, name: panelTitle, widget: string, hint: "显示在首页个人概览卡片中。" }
+          - label: 默认首屏资料（回退）
+            name: hero
+            widget: object
+            fields:
+              - label: 方向标签
+                name: kicker
+                widget: list
+                field: { label: 标签, name: item, widget: string }
+              - { label: 姓名, name: name, widget: string }
+              - { label: 高亮标题, name: highlight, widget: string }
+              - { label: 首屏介绍, name: description, widget: text }
+              - label: 核心方向
+                name: readout
+                widget: list
+                fields:
+                  - { label: 标题, name: label, widget: string }
+                  - { label: 说明, name: value, widget: string }
+          - label: 当前状态
+            name: status
+            widget: list
+            fields:
+              - { label: 标题, name: label, widget: string }
+              - { label: 内容, name: value, widget: string }
+          - label: 经历时间线
+            name: timeline
+            widget: list
+            fields:
+              - { label: 时间, name: time, widget: string }
+              - { label: 经历标题, name: title, widget: string }
+              - { label: 经历说明, name: description, widget: text }
+          - label: 技能分类
+            name: skills
+            widget: list
+            fields:
+              - { label: 分类名称, name: label, widget: string }
+              - label: 技能列表
+                name: items
+                widget: list
+                field: { label: 技能, name: item, widget: string }
+
+      - label: 联系方式
+        name: contact
+        file: content/contact.json
+        fields:
+          - { label: 搜索摘要, name: metaDescription, widget: text, hint: "用于搜索引擎和社交分享的页面说明。" }
+          - { label: 页面标题, name: headline, widget: string }
+          - { label: 联系简介, name: summary, widget: text }
+          - { label: 详细说明, name: copy, widget: text }
+          - { label: 联系备注, name: note, widget: text }
+          - label: 联系卡片
+            name: cards
+            widget: list
+            fields:
+              - { label: 标题, name: label, widget: string }
+              - { label: 显示内容, name: value, widget: string }
+              - { label: 跳转链接, name: href, widget: string, required: false }

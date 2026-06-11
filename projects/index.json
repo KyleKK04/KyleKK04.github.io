@@ -1,0 +1,58 @@
+[
+  {
+    "sourceFile": "content/projects/project-01.md",
+    "slug": "empty-box",
+    "title": "空箱",
+    "playLink": "https://yuan-zzz.itch.io/the-empty-box",
+    "playLabel": "去itch.io试玩",
+    "summary": "转换视角,改变认知",
+    "cover": "https://img.itch.zone/aW1nLzIzMjgzOTcxLnBuZw==/original/fGCcCu.png",
+    "coverFit": "contain",
+    "coverPosition": "center",
+    "coverLabel": " ",
+    "tone": "teal",
+    "featured": true
+  },
+  {
+    "sourceFile": "content/projects/project-02.md",
+    "slug": "oracleecho",
+    "title": "OracleEcho",
+    "playLink": "https://kyle-kk.itch.io/oracleecho",
+    "playLabel": "去itch.io试玩",
+    "summary": "心无杂念 我即唯一",
+    "cover": "https://img.itch.zone/aW1nLzI0NDIxOTA3LmpwZw%3D%3D/347x500/wn3kbf.jpg",
+    "coverFit": "contain",
+    "coverPosition": "center",
+    "coverLabel": "OE",
+    "tone": "violet",
+    "featured": true
+  },
+  {
+    "sourceFile": "content/projects/project-03.md",
+    "slug": "shi",
+    "title": "石",
+    "playLink": "https://yuan-zzz.itch.io/shi",
+    "playLabel": "去itch.io试玩",
+    "summary": "一个模拟写论文的整活游戏，在日常流程里塞进了很多朋友之间的小巧思。",
+    "cover": "https://img.itch.zone/aW1nLzI0MjMwMDAyLnBuZw==/315x250%23c/hRmRtm.png",
+    "coverFit": "contain",
+    "coverPosition": "center",
+    "coverLabel": "石",
+    "tone": "rose",
+    "featured": true
+  },
+  {
+    "sourceFile": "content/projects/project-04.md",
+    "slug": "emoji-party",
+    "title": "Emoji Party",
+    "playLink": "https://kyle-kk.itch.io/emoji-party",
+    "playLabel": "去itch.io试玩",
+    "summary": "双人对抗，收集爱与泪",
+    "cover": "https://img.itch.zone/aW1hZ2UvMzkwNTg0My8yMzMwMTg4MS5wbmc%3D/347x500/3q7cvl.png",
+    "coverFit": "contain",
+    "coverPosition": "center",
+    "coverLabel": "EP",
+    "tone": "blue",
+    "featured": true
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "name": "kylekk-personal-site",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "content:build": "node scripts/content-build.js",
+    "content:validate": "node scripts/content-validate.js",
+    "content:sync": "npm run content:build && npm run content:validate",
+    "content:watch": "node scripts/content-watch.js",
+    "cms:local": "npx decap-server"
+  }
+}

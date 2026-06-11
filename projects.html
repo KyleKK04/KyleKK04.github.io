@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="朱绪达 KyleKK 的游戏项目预览列表。">
+  <title>项目列表 | 朱绪达 KyleKK</title>
+  <meta property="og:title" content="项目列表 | 朱绪达 KyleKK">
+  <meta property="og:description" content="朱绪达 KyleKK 的游戏项目展示，涵盖 Unity 玩法开发、系统设计和快速原型。">
+  <meta property="og:url" content="https://kylekk.com/projects.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="styles/main.css?v=20260611-project-live">
+  <style>
+    body {
+      background:
+        radial-gradient(circle at 15% 10%, rgba(83, 216, 140, 0.04), transparent 30rem),
+        radial-gradient(circle at 80% 20%, rgba(111, 183, 214, 0.025), transparent 25rem),
+        var(--bg);
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 40px));
+    }
+
+    .projects-window {
+      margin: 60px 0 54px;
+    }
+
+    .projects-window .window-body {
+      padding: 32px;
+    }
+
+    .project-meta {
+      margin-bottom: 14px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .project-title {
+      max-width: 820px;
+      margin-bottom: 16px;
+      font-size: 42px;
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+      overflow-wrap: anywhere;
+      font-weight: 700;
+    }
+
+    .project-lead {
+      max-width: 680px;
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+    }
+
+    .project-cover {
+      display: grid;
+      place-items: center;
+      aspect-ratio: 16 / 9;
+    }
+
+    .project-card .project-cover.cover-fit-contain {
+      aspect-ratio: auto;
+      min-height: 0;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top, rgba(83, 216, 140, 0.05), transparent 42%),
+        #050505;
+    }
+
+    .project-card .project-cover.cover-fit-contain img {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      max-height: none;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .project-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 22px;
+    }
+
+    .project-body h2 {
+      margin-bottom: 8px;
+      font-size: 23px;
+      font-weight: 600;
+      line-height: 1.24;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .summary {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .project-action-row {
+      margin-top: auto;
+      padding-top: 18px;
+    }
+
+    .project-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 0 16px;
+      color: #04170e;
+      background: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .project-action:hover {
+      transform: translateY(-1px);
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+
+    .project-action.disabled {
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.03);
+      border-color: var(--border);
+      cursor: default;
+      pointer-events: none;
+    }
+
+    @media (max-width: 760px) {
+      .projects-window .window-body {
+        padding: 22px;
+      }
+
+      .project-title {
+        font-size: 30px;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav">
+      <a class="logo" href="index.html" data-site-logo>KyleKK</a>
+      <nav class="nav-links" aria-label="主导航">
+        <a class="active" href="projects.html" data-nav-key="projects">Projects</a>
+        <a href="profile.html" data-nav-key="profile">Profile</a>
+        <a href="blog.html" data-nav-key="notes">Notes</a>
+        <a href="contact.html" data-nav-key="contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <article class="terminal-window projects-window" aria-labelledby="page-title">
+        <div class="window-header">
+          <span class="window-dot red"></span>
+          <span class="window-dot yellow"></span>
+          <span class="window-dot green"></span>
+          <span class="window-title" id="projects-window-title">projects.log</span>
+        </div>
+        <div class="window-body">
+          <div class="project-meta" id="project-meta">Projects</div>
+          <h1 class="project-title" id="page-title">项目列表</h1>
+          <p class="project-lead" id="project-lead">这里直接展示项目封面、简介和游玩入口，不再单独跳转项目详情页。</p>
+          <section class="project-grid" id="project-list" aria-label="项目列表">
+            <article class="project-card skeleton-card"></article>
+            <article class="project-card skeleton-card"></article>
+            <article class="project-card skeleton-card"></article>
+            <article class="project-card skeleton-card"></article>
+          </section>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      <p>&copy; <span id="current-year"></span> 朱绪达 KyleKK</p>
+    </footer>
+  </div>
+
+  <script src="scripts/site-content.js?v=20260611-project-live"></script>
+  <script>
+    document.querySelector("#current-year").textContent = new Date().getFullYear();
+
+    const projectList = document.querySelector("#project-list");
+    const projectMeta = document.querySelector("#project-meta");
+    const pageTitle = document.querySelector("#page-title");
+    const projectLead = document.querySelector("#project-lead");
+    const projectsWindowTitle = document.querySelector("#projects-window-title");
+    let siteCopy = null;
+
+    function renderPageHeader(site) {
+      const projectsPage = site.projectsPage || {};
+      SiteContent.applyNavigation(site);
+      SiteContent.applyTheme(site);
+      SiteContent.applyMeta({
+        title: projectsPage.title,
+        description: projectsPage.metaDescription,
+        ogTitle: projectsPage.ogTitle,
+        ogDescription: projectsPage.ogDescription,
+        ogUrl: "https://kylekk.com/projects.html"
+      });
+      projectsWindowTitle.textContent = projectsPage.windowTitle || "projects.log";
+      projectMeta.textContent = projectsPage.kicker || "Projects";
+      pageTitle.textContent = projectsPage.headline || "项目列表";
+      projectLead.textContent = projectsPage.lead || "这里直接展示项目封面、简介和游玩入口，不再单独跳转项目详情页。";
+    }
+
+    function renderProjects(projects) {
+      projectList.innerHTML = projects.map(project => `
+        <article class="project-card" id="project-${SiteContent.escapeHtml(project.slug)}">
+          ${SiteContent.renderProjectCover(project)}
+          <div class="project-body">
+            <h2>${SiteContent.escapeHtml(project.title)}</h2>
+            <p class="summary">${SiteContent.escapeHtml(project.summary)}</p>
+            <div class="project-action-row">
+              ${SiteContent.renderProjectAction(project)}
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    async function initProjects() {
+      try {
+        siteCopy = await SiteContent.fetchJson("content/site.json");
+        renderPageHeader(siteCopy);
+        const projects = await SiteContent.fetchProjects();
+        renderProjects(projects);
+      } catch (error) {
+        const projectsPage = siteCopy?.projectsPage || {};
+        if (siteCopy) {
+          SiteContent.applyNavigation(siteCopy);
+        }
+        projectMeta.textContent = projectsPage.kicker || "Projects";
+        pageTitle.textContent = projectsPage.headline || "项目列表";
+        projectLead.textContent = projectsPage.loadErrorLead || "项目文案暂时无法加载。";
+        projectList.innerHTML = `<article class="project-card"><div class="project-body"><h2>${SiteContent.escapeHtml(projectsPage.loadErrorTitle || "项目暂时无法加载")}</h2><p class="summary">${SiteContent.escapeHtml(projectsPage.loadErrorSummary || "请检查 projects/index.json。")}</p></div></article>`;
+      }
+    }
+
+    initProjects();
+  </script>
+</body>
+</html>

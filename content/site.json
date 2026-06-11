@@ -1,0 +1,112 @@
+{
+  "backgroundFit": "contain",
+  "projectsPage": {
+    "ogTitle": "项目列表 | KyleKK",
+    "loadErrorSummary": "请检查 projects/index.json。",
+    "ogDescription": "KyleKK 的游戏项目展示，涵盖 Unity 玩法开发、系统设计和快速原型。",
+    "windowTitle": "projects.log",
+    "kicker": "Projects",
+    "headline": "项目列表",
+    "loadErrorTitle": "项目暂时无法加载",
+    "metaDescription": "KyleKK 的游戏项目预览列表。",
+    "title": "项目列表 | KyleKK",
+    "lead": " ",
+    "loadErrorLead": "项目文案暂时无法加载。"
+  },
+  "backgroundImage": "/res/background.png",
+  "contactPage": {
+    "windowTitle": "contact.log",
+    "kicker": "Contact",
+    "loadErrorMessage": "Contact 内容暂时无法加载。"
+  },
+  "blogPage": {
+    "ogTitle": "技术博客 | KyleKK",
+    "ogDescription": "KyleKK 的技术博客，记录游戏研发、Unity、玩法系统和工程实践的复盘与笔记。",
+    "loadErrorMessage": "请确认本地预览是通过 HTTP 服务打开，并检查 posts/index.json 与 Markdown 文件路径。",
+    "loadErrorMeta": "Error",
+    "windowTitle": "posts.md",
+    "listSummary": "技术复盘、项目笔记和学习记录。",
+    "notFoundTitle": "没有找到这篇文章",
+    "notFoundMeta": "Not Found",
+    "loadErrorTitle": "文章暂时无法加载",
+    "notFoundSummary": "可以返回博客列表重新选择一篇文章。",
+    "metaDescription": "KyleKK 的技术博客列表与文章阅读。",
+    "title": "技术博客 | KyleKK",
+    "listTitle": "技术博客",
+    "notFoundBackLabel": "返回博客列表"
+  },
+  "siteName": "KyleKK",
+  "navigation": {
+    "projects": "Projects",
+    "profile": "Profile",
+    "notes": "Notes",
+    "contact": "Contact"
+  },
+  "backgroundPosition": "center",
+  "profilePage": {
+    "windowTitle": "profile.log",
+    "kicker": "Profile",
+    "loadErrorMessage": "Profile 内容暂时无法加载。"
+  },
+  "ownerName": "KyleKK",
+  "home": {
+    "metaDescription": "KyleKK 的个人网站，记录游戏研发、Unity 项目、技术博客和学习复盘。",
+    "title": "KyleKK | Gameplay Developer",
+    "ogTitle": "KyleKK | Gameplay Developer",
+    "ogDescription": "四川大学软件工程本科在读，快手游戏研发部实习中。专注 Unity 玩法开发、系统设计与游戏原型。",
+    "panelWindowTitle": "status.log",
+    "hero": {
+      "kicker": [
+        "Gameplay Developer",
+        "Unity",
+        "Prototype"
+      ],
+      "name": "KyleKK",
+      "highlight": "Game Dev Lab",
+      "description": "软件工程本科在读，目前在快手游戏研发部实习。关注 Unity 玩法开发、系统设计、工具链和快速原型，把想法推进到可玩、可迭代、可复盘的版本。",
+      "readout": [
+        {
+          "label": "Unity",
+          "value": "Gameplay / Tools"
+        },
+        {
+          "label": "C#",
+          "value": "Systems / UI"
+        },
+        {
+          "label": "Jam",
+          "value": "Rapid Prototype"
+        }
+      ],
+      "primaryLabel": "查看项目",
+      "secondaryLabel": "查看经历与技能"
+    },
+    "profilePreview": {
+      "panelTitle": "Gameplay Developer Intern",
+      "summary": "偏玩法、系统和工具链方向，正在把校园项目、Game Jam 经验和实习实践持续整理成可复用的方法。"
+    },
+    "sections": {
+      "projects": {
+        "kicker": "Projects",
+        "title": "精选项目",
+        "detailLabel": "查看全部项目",
+        "lead": "首页保留少量项目入口，完整项目封面、简介和游玩入口会集中在项目页维护。"
+      },
+      "profile": {
+        "kicker": "Profile",
+        "title": "经历与技能",
+        "detailLabel": "打开经历页"
+      },
+      "notes": {
+        "kicker": "Notes",
+        "title": "技术博客",
+        "detailLabel": "查看全部博客"
+      },
+      "contact": {
+        "kicker": "Contact",
+        "title": "联系我",
+        "detailLabel": "打开联系页"
+      }
+    }
+  }
+}
